@@ -1,7 +1,15 @@
 services:
-  postfix:
-    image: correo
-    container_name: postfix
+  mail:
+    image: mail
+    container_name: mail
+    networks:
+      - local-net
+    privileged: true
+    tty: true
+
+  ubuntu:
+    image: ubuntu:latest
+    container_name: ubuntu
     networks:
       - local-net
     privileged: true

@@ -11,8 +11,6 @@ COPY postfix_config/main.cf /etc/postfix/
 COPY dovecot/10-auth.conf /etc/dovecot/conf.d/
 COPY dovecot/10-mail.conf /etc/dovecot/conf.d/
 
-# RUN echo "127.0.0.1 mail" >> /etc/hosts
-
 
 RUN service postfix restart
 RUN service dovecot restart

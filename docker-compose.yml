@@ -1,0 +1,15 @@
+services:
+  postfix:
+    image: correo
+    container_name: postfix
+    networks:
+      - local-net
+    privileged: true
+    tty: true
+
+networks:
+  local-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.30.1.0/24

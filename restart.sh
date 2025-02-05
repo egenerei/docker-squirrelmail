@@ -1,7 +1,5 @@
 
 #!/bin/bash
-
-service postfix restart
+service postfix start
 service dovecot start
-
 cron -f

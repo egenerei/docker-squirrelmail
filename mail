@@ -1,8 +1,8 @@
-FROM debian:bullseye
+FROM debian:latest
 
 # Install necessary packages
 RUN apt-get update
-RUN apt-get install debconf nano mutt mailutils -y
+RUN apt-get install debconf nano mutt mailutils cron -y
 RUN echo "postfix postfix/mailname string jdelrey.local" | debconf-set-selections
 RUN echo "postfix postfix/main_mailer_type string 'localhost'" | debconf-set-selections
 RUN apt-get install postfix dovecot-core dovecot-imapd -y
@@ -11,12 +11,11 @@ COPY postfix_config/main.cf /etc/postfix/
 COPY dovecot/10-auth.conf /etc/dovecot/conf.d/
 COPY dovecot/10-mail.conf /etc/dovecot/conf.d/
 
+RUN useradd -m -s /bin/bash -p $(openssl passwd -1 usuario) paco
+RUN useradd -m -s /bin/bash -p $(openssl passwd -1 usuario) manolo
 
-RUN service postfix restart
-RUN service dovecot restart
-
-# Expose Apache2 ports
-EXPOSE 80
+COPY restart.sh /restart.sh
+RUN chmod +x /restart.sh
 
 # Set entrypoint
-CMD ["tail","-f","/dev/null"]
+ENTRYPOINT ["/bin/bash","/restart.sh"]

@@ -12,11 +12,20 @@ services:
     networks:
       - net
 
-  mail:
+  dovecot:
     build:
       context: .
-      dockerfile: mail
-    container_name: mail
+      dockerfile: dovecot
+    container_name: dovecot
+    privileged: true
+    networks:
+      - net
+      
+  postfix:
+    build:
+      context: .
+      dockerfile: postfix
+    container_name: postfix
     privileged: true
     networks:
       - net

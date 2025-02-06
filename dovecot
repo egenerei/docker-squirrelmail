@@ -8,15 +8,15 @@ RUN echo "postfix postfix/main_mailer_type string 'localhost'" | debconf-set-sel
 RUN apt-get install postfix -y
 
 COPY postfix_config/main.cf /etc/postfix/
-COPY dovecot/10-auth.conf /etc/dovecot/conf.d/
-COPY dovecot/10-mail.conf /etc/dovecot/conf.d/
+COPY dovecot_config/10-auth.conf /etc/dovecot/conf.d/
+COPY dovecot_config/10-mail.conf /etc/dovecot/conf.d/
 
 RUN useradd -m -s /bin/bash -p $(openssl passwd -1 usuario) paco
 RUN useradd -m -s /bin/bash -p $(openssl passwd -1 usuario) manolo
 
-COPY postfix-dovecot.sh /postfix-dovecot.sh
-RUN chmod +x /postfix-dovecot.sh
+
 
 EXPOSE 25 143 993 587
 # Set entrypoint
-ENTRYPOINT ["/bin/bash","/postfix-dovecot.sh"]
+CMD ["dovecot","-F"]
+

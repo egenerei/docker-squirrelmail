@@ -1,0 +1,25 @@
+FROM debian:bullseye
+
+# Install necessary packages
+RUN apt-get update
+RUN apt-get install apache2 php7.4 libapache2-mod-php7.4 cron -y
+
+RUN a2enmod php7.4
+
+RUN a2enmod rewrite
+
+COPY website_config/mail.conf /etc/apache2/sites-available/
+
+RUN a2dissite 000-default.conf
+RUN a2ensite mail.conf
+
+RUN mkdir -p /var/local/squirrelmail/data
+RUN chown -R www-data:www-data /var/local/squirrelmail/data
+RUN mkdir -p /var/local/squirrelmail/attach
+RUN chown www-data:www-data /var/local/squirrelmail/attach
+COPY apache2.sh /apache2.sh
+RUN chmod +x /apache2.sh
+
+EXPOSE 80 143 587
+# Set entrypoint
+ENTRYPOINT ["/bin/bash","/apache2.sh"]

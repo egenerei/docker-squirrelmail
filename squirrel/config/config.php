@@ -28,10 +28,10 @@ $default_charset       = 'iso-8859-1';
 $lossy_encoding        = false;
 
 $domain                 = 'jdelrey.local';
-$imapServerAddress      = 'localhost';
+$imapServerAddress      = 'mail';
 $imapPort               = 143;
 $useSendmail            = false;
-$smtpServerAddress      = 'localhost';
+$smtpServerAddress      = 'mail';
 $smtpPort               = 25;
 $sendmail_path          = '/usr/sbin/sendmail';
 $sendmail_args          = '-i -t';

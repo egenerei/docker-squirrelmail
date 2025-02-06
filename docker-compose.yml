@@ -1,13 +1,26 @@
 services:
+  apache2:
+    build:
+      context: .
+      dockerfile: apache2
+    container_name: apache2
+    ports:
+      - "80:80"
+    volumes:
+      - ./squirrel:/var/www/mail
+    privileged: true
+    networks:
+      - net
+
   mail:
-    image: mail
+    build:
+      context: .
+      dockerfile: mail
     container_name: mail
     privileged: true
+    networks:
+      - net
 
-  # ubuntu:
-  #   image: ubuntu:latest
-  #   container_name: ubuntu
-  #   networks:
-  #     - local-net
-  #   privileged: true
-  #   tty: true
+networks:
+  net:
+    driver: bridge

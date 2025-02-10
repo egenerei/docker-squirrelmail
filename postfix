@@ -1,17 +1,16 @@
 FROM debian:latest
 
 # Install necessary packages
-RUN apt-get update && apt-get install debconf nano mutt mailutils -y
+RUN apt-get update && apt-get install debconf -y
 RUN echo "postfix postfix/mailname string jdelrey.local" | debconf-set-selections
 RUN echo "postfix postfix/main_mailer_type string 'localhost'" | debconf-set-selections
 RUN apt-get install postfix -y
 
 COPY postfix_config/main.cf /etc/postfix/
 
-
 RUN useradd -m -s /bin/bash -p $(openssl passwd -1 usuario) paco
 RUN useradd -m -s /bin/bash -p $(openssl passwd -1 usuario) manolo
 
-EXPOSE 25 143 993 587
+EXPOSE 25 465
 # Set entrypoint
 CMD ["postfix", "start-fg"]

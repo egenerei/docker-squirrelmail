@@ -1,22 +1,14 @@
 FROM debian:latest
 
 # Install necessary packages
-RUN apt-get update
-RUN apt-get install debconf nano mutt mailutils dovecot-core dovecot-imapd cron -y
-RUN echo "postfix postfix/mailname string jdelrey.local" | debconf-set-selections
-RUN echo "postfix postfix/main_mailer_type string 'localhost'" | debconf-set-selections
-RUN apt-get install postfix -y
+RUN apt-get update && apt-get install dovecot-core dovecot-imapd -y
 
-COPY postfix_config/main.cf /etc/postfix/
-COPY dovecot_config/10-auth.conf /etc/dovecot/conf.d/
-COPY dovecot_config/10-mail.conf /etc/dovecot/conf.d/
+COPY dovecot_config/dovecot /etc/dovecot
 
 RUN useradd -m -s /bin/bash -p $(openssl passwd -1 usuario) paco
 RUN useradd -m -s /bin/bash -p $(openssl passwd -1 usuario) manolo
 
-
-
-EXPOSE 25 143 993 587
+EXPOSE 143 993 24
 # Set entrypoint
 CMD ["dovecot","-F"]
 

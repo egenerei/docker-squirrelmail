@@ -1,16 +1,16 @@
 services:
-  apache2:
-    build:
-      context: .
-      dockerfile: apache2
-    container_name: apache2
-    ports:
-      - "80:80"
-    volumes:
-      - ./squirrel:/var/www/mail
-    privileged: true
-    networks:
-      - net
+  # apache2:
+  #   build:
+  #     context: .
+  #     dockerfile: apache2
+  #   container_name: apache2
+  #   ports:
+  #     - "80:80"
+  #   volumes:
+  #     - ./squirrel:/var/www/mail
+  #   privileged: true
+  #   networks:
+  #     - net
 
   dovecot:
     build:
